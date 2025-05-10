@@ -1,0 +1,7 @@
+name: PaperTemplate
+version: '1.0-SNAPSHOT'
+main: com.github.razorplay01.template.PaperTemplate
+api-version: '1.21'
+prefix: PaperTemplate
+authors: [ RazorPlay ]
+website: https://github.com/RazorPlay01

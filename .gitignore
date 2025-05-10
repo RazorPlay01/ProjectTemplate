@@ -1,0 +1,12 @@
+.gradle
+.idea
+/build
+/TemplateCommon/build
+/TemplateFabric/.gradle
+/TemplateFabric/.idea
+/TemplateFabric/build
+/TemplateFabric/run
+/TemplatePaper/.gradle
+/TemplatePaper/.idea
+/TemplatePaper/build
+/TemplatePaper/run

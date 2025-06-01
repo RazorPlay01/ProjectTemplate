@@ -13,13 +13,15 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public final class PaperTemplate extends JavaPlugin {
-    public static final String PLUGIN_NAME = getInstance().getName();
-    public static final Logger LOGGER = getInstance().getLogger();
+    public static String PLUGIN_NAME;
+    public static Logger LOGGER;
     private @Getter PaperCommandManager commandManager;
     private @Getter TaskChainFactory taskChainFactory;
 
     @Override
     public void onEnable() {
+        PLUGIN_NAME = getInstance().getName();
+        LOGGER = getInstance().getLogger();
         // Plugin startup logic
         this.taskChainFactory = BukkitTaskChainFactory.create(this);
         NetworkHandler networkHandler = new NetworkHandler();

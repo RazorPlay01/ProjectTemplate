@@ -1,6 +1,7 @@
 .gradle
 .idea
 /build
+/output
 /TemplateCommon/build
 /TemplateFabric/.gradle
 /TemplateFabric/.idea

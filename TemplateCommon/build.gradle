@@ -1,21 +1,35 @@
-plugins {
-    id 'java'
+def templateSource = file('src/main/templates')
+def templateDest = layout.buildDirectory.dir('generated/sources/templates')
+
+def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
+    /* Expand all the project properties */
+    task.inputs.properties(
+            project.properties.findAll { key, value ->
+                value instanceof String
+            }
+    )
+    task.expand project.properties
+
+    task.from templateSource
+    task.into templateDest
 }
 
-group = 'com.github.razorplay01.template'
-version = project.project_version
+sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
 
-repositories {
-    mavenCentral()
-}
+// Configure the template source and destination directories.
+project.idea.project.settings.taskTriggers.afterSync generateTemplates
+
 dependencies {
-    implementation 'com.google.guava:guava:32.1.2-jre'
-}
-
-java {
-    withSourcesJar()
+    compileOnly("com.google.guava:guava:32.1.2-jre")
+    compileOnly("com.google.code.gson:gson:2.13.1")
+    compileOnly("org.slf4j:slf4j-api:1.7.25")
 }
 
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:unchecked"
 }
+
+shadowJar {
+    archiveClassifier.set(null)
+}
+assemble.dependsOn(shadowJar)

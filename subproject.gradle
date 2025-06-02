@@ -1,0 +1,120 @@
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'java-test-fixtures'
+apply plugin: 'com.gradleup.shadow'
+
+base {
+	archivesName = "${project.name}"
+	group = "${project.project_group}"
+	version = project.project_version
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+// Configure the project
+if (project != rootProject) {
+	println("Project ${project.name} registering...")
+
+	jar {
+		exclude "META-INF/LICENSE.txt"
+		exclude "META-INF/NOTICE.txt"
+
+		from("LICENSE") {
+			rename { "${it}_${project.base.archivesName.get()}"}
+		}
+	}
+
+	/*
+	* Configure the project resources
+	* set all the project properties as system properties
+	*/
+	processResources {
+		filteringCharset 'UTF-8'
+
+		it.inputs.properties(
+				project.properties.findAll { key, value ->
+					value instanceof String
+				}
+		)
+	}
+
+	tasks.withType(AbstractArchiveTask).configureEach {
+		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+		preserveFileTimestamps = false
+		reproducibleFileOrder = true
+	}
+
+	/*
+	* Set the publishing configuration for the project
+	* with the environment variables GITHUB_ACTOR and GITHUB_TOKEN
+	* only if the project has a publish_url property
+	*/
+	if (project.hasProperty("publish_url")) {
+		println("-> Project ${project.name} has a 'publish_url' property.")
+
+		publishing {
+			publications {
+				shadow(MavenPublication) { publication ->
+					artifactId = project.name
+					from components.java
+				}
+			}
+
+			repositories {
+				maven {
+					name = "GitHubPackages"
+					url = "${project.publish_url}${rootProject.name}"
+					credentials {
+						username = System.getenv("GITHUB_ACTOR")
+						password = System.getenv("GITHUB_TOKEN")
+					}
+				}
+			}
+		}
+	}
+}
+
+def targetJavaVersion = 21
+
+tasks.withType(JavaCompile).configureEach {
+	// ensure that the encoding is set to UTF-8, no matter what the system default is
+	// this fixes some edge cases with special characters not displaying correctly
+	// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
+	// If Javadoc is generated, this must be specified in that task too.
+	it.options.encoding = "UTF-8"
+	if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+		it.options.release.set(targetJavaVersion)
+	}
+}
+
+java {
+	def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+	if (JavaVersion.current() < javaVersion) {
+		toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+	}
+	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+	// if it is present.
+	// If you remove this line, sources will not be generated.
+	withSourcesJar()
+}
+
+/*
+* Configure the testing environment for the project
+* only if the project has a test source set in the build script
+* and the project has a junit_version property
+*/
+if (project.hasProperty("junit_version")) {
+	test {
+		useJUnitPlatform()
+	}
+
+	dependencies {
+		testFixturesApi "org.junit.jupiter:junit-jupiter-api:${project.junit_version}"
+		testFixturesRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junit_version}"
+	}
+}

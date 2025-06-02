@@ -4,9 +4,12 @@ import com.github.razorplay.packet_handler.network.IPacket;
 import com.github.razorplay.packet_handler.network.PacketTCP;
 import com.github.razorplay.packet_handler.network.packet.EmptyPacket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TemplateCommon {
-    public static final String PROJECT_ID = "template";
-    public static final String PACKET_BASE_CHANNEL = PROJECT_ID + ":packets_channel";
+    public static final String PACKET_BASE_CHANNEL = BuildConstants.ID.toLowerCase() + ":packets_channel";
+    public static final Logger LOGGER = LoggerFactory.getLogger(BuildConstants.NAME);
 
     private TemplateCommon() {
         //  []

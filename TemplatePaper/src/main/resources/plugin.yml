@@ -1,5 +1,5 @@
 name: PaperTemplate
-version: '1.0-SNAPSHOT'
+version: ${version}
 main: com.github.razorplay01.template.PaperTemplate
 api-version: '1.21'
 prefix: PaperTemplate

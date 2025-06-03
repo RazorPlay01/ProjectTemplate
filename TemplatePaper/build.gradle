@@ -9,15 +9,15 @@ repositories {
 }
 
 dependencies {
-    shadow implementation(project(":TemplateCommon"))
+    shadow implementation(project(":${project.common_module_name}"))
 
     // The paper plugin will automatically add them to the paperDevBundle.
     // It is no longer necessary to include the paper API as a dependency, as paperweight brings it internally.
-    paperweight.paperDevBundle('1.21.1-R0.1-SNAPSHOT')
+    paperweight.paperDevBundle("${project.paper_version}")
 
     // Add other dependencies
-    shadow implementation('co.aikar:acf-paper:0.5.1-SNAPSHOT')
-    shadow implementation('co.aikar:taskchain-bukkit:3.7.2')
+    shadow implementation("co.aikar:acf-paper:${project.acf_paper_version}")
+    shadow implementation("co.aikar:taskchain-bukkit:${project.taskchain_bukkit_version}")
 
     implementation('com.google.code.findbugs:jsr305:3.0.2')
     implementation('org.xerial:sqlite-jdbc:3.7.2')
@@ -31,11 +31,11 @@ tasks {
 
 shadowJar {
     archiveClassifier.set(null)
-    dependsOn ':TemplateCommon:shadowJar'
+    dependsOn ":${project.common_module_name}:shadowJar"
 
-    relocate 'co.aikar.taskchain', 'com.github.razorplay01.template.taskchain'
-    relocate "co.aikar.commands", "com.github.razorplay01.template.acf"
-    relocate "co.aikar.locales", "com.github.razorplay01.template.locales"
+    relocate 'co.aikar.taskchain', "${project.project_group}.taskchain"
+    relocate "co.aikar.commands", "${project.project_group}.acf"
+    relocate "co.aikar.locales", "${project.project_group}.locales"
 }
 assemble.dependsOn(shadowJar)
 

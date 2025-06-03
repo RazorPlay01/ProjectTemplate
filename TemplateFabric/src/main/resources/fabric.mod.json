@@ -1,13 +1,17 @@
 {
   "schemaVersion": 1,
-  "id": "fabrictemplate",
+  "id": "${project_id}",
   "version": "${version}",
-  "name": "FabricTemplate",
-  "description": "",
-  "authors": [],
-  "contact": {},
-  "license": "ARR",
-  "icon": "assets/fabrictemplate/icon.png",
+  "name": "${project_name}",
+  "description": "${description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "sources": "${web}"
+  },
+  "license": "${license}",
+  "icon": "assets/${project_id}/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -18,7 +22,7 @@
     ]
   },
   "mixins": [
-    "fabrictemplate.mixins.json"
+    "${project_id}.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

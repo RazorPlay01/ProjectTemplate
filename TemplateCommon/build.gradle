@@ -20,9 +20,9 @@ sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
 project.idea.project.settings.taskTriggers.afterSync generateTemplates
 
 dependencies {
-    compileOnly("com.google.guava:guava:32.1.2-jre")
-    compileOnly("com.google.code.gson:gson:2.13.1")
-    compileOnly("org.slf4j:slf4j-api:1.7.25")
+    compileOnly("com.google.guava:guava:${project.guava_version}")
+    compileOnly("com.google.code.gson:gson:${project.gson_version}")
+    compileOnly("org.slf4j:slf4j-api:${project.slf4j_version}")
 }
 
 tasks.withType(JavaCompile) {

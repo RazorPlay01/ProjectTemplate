@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.razorplay.fabrictemplate.mixin",
+  "package": "com.github.razorplay01.template.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
   ],

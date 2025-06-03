@@ -1,7 +1,7 @@
-name: PaperTemplate
+name: ${project_name}
 version: ${version}
 main: com.github.razorplay01.template.PaperTemplate
 api-version: '1.21'
-prefix: PaperTemplate
-authors: [ RazorPlay ]
-website: https://github.com/RazorPlay01
+authors: [ ${mod_author} ]
+website: ${web}
+description: ${description}

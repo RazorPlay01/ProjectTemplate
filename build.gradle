@@ -9,7 +9,7 @@ plugins {
     id 'fabric-loom' version '1.8-SNAPSHOT' apply false
 
     // Plugin for running Paper dependencies with a Gradle task
-    id 'xyz.jpenilla.run-paper' version "2.3.1" apply false
+    id 'xyz.jpenilla.run-paper' version "3.1.0" apply false
     id 'xyz.jpenilla.run-velocity' version "3.1.0" apply false
 
     // Paperweight plugin

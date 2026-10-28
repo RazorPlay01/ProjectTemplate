@@ -6,7 +6,7 @@ plugins {
     id 'org.jetbrains.gradle.plugin.idea-ext' version "1.0.1"
 
     // Fabric loom plugin
-    id 'fabric-loom' version '1.8-SNAPSHOT' apply false
+    id 'fabric-loom' version '1.19.3' apply false
 
     // Plugin for running Paper dependencies with a Gradle task
     id 'xyz.jpenilla.run-paper' version "2.3.1" apply false
